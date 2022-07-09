@@ -2,8 +2,11 @@
 
 Downloads entire smug mug albums from crean
 
+
 ___
-Make sure to do the following after you install, or else your computer will be spammed with image files upon download:
+## [How to install tampermonkey](https://www.youtube.com/watch?v=kjeERqWY04s)
+___
+Make sure to do the following after you install, or else your computer will be spammed with image files when you try to download an album:
 
   1) Go to your Tampermonkey daskboard
   2) Click settings
