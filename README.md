@@ -20,6 +20,6 @@ ___
 Things I might add in the future:
  - Download buttons for individual photos
  - Other domains than creanlutheran
- - The ability to choose a quality of photos
- - The ability to specify a range of photos to download
+ - The ability to choose the quality of photos
+ - The ability to specify a date range of photos to download
  - I'll think more later
