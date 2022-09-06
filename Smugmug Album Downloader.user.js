@@ -63,8 +63,8 @@ $(document).ready(() => {
     let url = $("link[rel=alternate][type*=rss+xml]").attr("href");
     let regex = new RegExp(/\d*_[a-zA-Z\d]*/gm);
 
-    albumId = url.match(regex)[0].split("_")[0];
-    albumKey = url.match(regex)[0].split("_")[1];
+    let albumId = url.match(regex)[0].split("_")[0];
+    let albumKey = url.match(regex)[0].split("_")[1];
     let links = [];
 
     const settings = {
