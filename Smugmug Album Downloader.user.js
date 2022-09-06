@@ -14,7 +14,7 @@
 /***************** IMPORTANT!!! ********************
 For this script to work properly, do the following:
 
-  1) Go to your Tampermonkey daskboard
+  1) Go to your Tampermonkey dashboard
   2) Click settings
   3) Change the 1st option (Config Mode) to "Advanced"
   4) Scroll down to "Downloads BETA"
