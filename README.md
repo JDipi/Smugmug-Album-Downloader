@@ -8,7 +8,7 @@ ___
 ___
 Make sure to do the following after you install, or else your computer will be spammed with image files when you try to download an album:
 
-  1) Go to your Tampermonkey daskboard
+  1) Go to your Tampermonkey dashboard
   2) Click settings
   3) Change the 1st option (Config Mode) to "Advanced"
   4) Scroll down to "Downloads BETA"
