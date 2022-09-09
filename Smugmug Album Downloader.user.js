@@ -132,7 +132,7 @@ $(document).ready(() => {
           }
         }
 
-        let url = `https://photos.smugmug.com/photos/${picID}/0/${largestSize}/${picID}-${largestSize}.${ext}s`;
+        let url = `https://photos.smugmug.com/photos/${picID}/0/${largestSize}/${picID}-${largestSize}.${ext}`;
         links.push(url);
       }
 
