@@ -4,6 +4,7 @@
 // @version      0.1
 // @description  Smugmug Album Downloader
 // @author       _John#1218
+// @supportURL   https://github.com/JDipi/Smugmug-Album-Downloader/issues
 // @match        https://*.smugmug.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=smugmug.com
 // @connect      https://photos.smugmug.com/
