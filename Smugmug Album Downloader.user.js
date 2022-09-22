@@ -33,7 +33,7 @@ $(document).ready(() => {
     ".sm-gallery-cover-title"
   );
 
-  GM_addStyle(/*css*/ `
+GM_addStyle(/*css*/ `
   .sm-gallery-cover-title {
     display: flex;
     gap: 10px;
@@ -49,31 +49,39 @@ $(document).ready(() => {
 
   .downloadProgressContainer progress {
     width: 100%;
+    margin: 5px 0px;
   }
 
   .downloadProgressContainer {
     position: fixed;
+    border-radius: 10px;
+    margin: 10px;
     z-index: 100;
-    background: #adadad;
+    background: #2c2f33;
     width: fit-content;
     color: black;
     padding: 10px;
     font-weight: bold;
     width: fit-content;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 1)
   }
 
   #downloadProgress {
     display: flex;
     justify-content: space-between;
+    color: #99aab5;
   }
 
   #errors > p {
-    color: red;
-    border-top: 1px solid black
+    color: #ff7171;
+    border: 1px solid #99aab5;
+    margin: 2px 0px;
+    border-radius: 5px;
+    padding: 5px;
   }
 
   #errors a code {
-    color: blue;
+    color: #9393ff;
     text-decoration: underline;
   }
 
@@ -81,6 +89,21 @@ $(document).ready(() => {
     max-height: 270px;
     overflow: auto;
     width: 800px;
+    margin: 0px 0px 5px 0px;
+  }
+
+  #close {
+    background-color: #7289da;
+    border-radius: 8px;
+    padding: 5px;
+    width: 70px;
+    color: white;
+    border: 1px solid #99aab5;
+    cursor: pointer;
+  }
+
+  #close:hover {
+    background-color: #55659f;
   }
 `);
 
