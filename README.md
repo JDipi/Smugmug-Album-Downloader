@@ -27,6 +27,9 @@ It will confirm if you want to download the photos
 ![image](https://user-images.githubusercontent.com/48573618/189263822-29f79338-12eb-4783-8829-cfbf7b1db6a2.png)
 
 Then it will show progress and errors (if any)
+
+*NOTE: I changed the UI a bit, so it looks less 90s now
+
 ![image](https://user-images.githubusercontent.com/48573618/189264055-b49d960a-3b0f-4f8e-a4ff-ba4520098404.png)
 ![image](https://user-images.githubusercontent.com/48573618/189264351-2b49a6d7-9b7e-4707-8864-25c051d758ae.png)
 
