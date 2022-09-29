@@ -17,28 +17,33 @@ Make sure to do the following after you install tampermonkey, or else your defau
   6) Save and exit, accept the new "Manage Download" 
      permission if prompted.
 ___
-### How to use
+## Usage
 
 After installing the script, a button will appear near the gallery title
 ![image](https://user-images.githubusercontent.com/48573618/189263722-070f8a0d-225c-4739-9acd-d247d6f166b7.png)
 
-It will confirm if you want to download the photos
+#### 1. It will confirm if you want to download the photos
 
-![image](https://user-images.githubusercontent.com/48573618/189263822-29f79338-12eb-4783-8829-cfbf7b1db6a2.png)
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/48573618/189263822-29f79338-12eb-4783-8829-cfbf7b1db6a2.png" width="400" />
+</p>
 
-Then it will show progress and errors (if any)
+#### 2. Then it will show progress and errors (if any)
 
-*NOTE: I changed the UI a bit, so it looks less 90s now*
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/48573618/193071285-74a33727-06d1-499c-92a6-0711a880a235.png" width="800" />
+</p>
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/48573618/193071900-d8c5c178-2f4a-42e6-867e-d180c25d240d.png" width="800" />
+</p>
 
-![image](https://user-images.githubusercontent.com/48573618/189264055-b49d960a-3b0f-4f8e-a4ff-ba4520098404.png)
-![image](https://user-images.githubusercontent.com/48573618/189264351-2b49a6d7-9b7e-4707-8864-25c051d758ae.png)
+#### 3. The downloaded album will appear in your default download directory
 
-The downloaded album will appear in your default download directory
+<p align="center">
+ <img src="https://user-images.githubusercontent.com/48573618/189264208-a32c3427-3d43-409e-af53-51946180e1bc.png" />
+</p>
 
-![image](https://user-images.githubusercontent.com/48573618/189264208-a32c3427-3d43-409e-af53-51946180e1bc.png)
-
-
-NOTE: The script selects the highest quality version of the photos it can find, I may add a option to choose the quality in the future.
+*NOTE: The script selects the highest quality version of the photos it can find, I may add a option to choose the quality in the future.*
 ___
 
 Things I might add in the future:
