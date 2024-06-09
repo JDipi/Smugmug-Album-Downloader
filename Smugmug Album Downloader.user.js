@@ -29,11 +29,11 @@ just spewing all the images out.
 **************************************************/
 
 $(document).ready(() => {
-  $(`<button id="downloadAlb">Download Album</button>`).appendTo(
-    ".sm-gallery-cover-title"
-  );
+    $(`<button id="downloadAlb">Download Album</button>`).appendTo(
+        ".sm-gallery-cover-title"
+    );
 
-GM_addStyle(/*css*/ `
+    GM_addStyle(/*css*/ `
   .sm-gallery-cover-title {
     display: flex;
     gap: 10px;
@@ -107,64 +107,67 @@ GM_addStyle(/*css*/ `
   }
 `);
 
-  $("#downloadAlb").on("click", function (e) {
-    let url = $("link[rel=alternate][type*=rss+xml]").attr("href");
+    $("#downloadAlb").on("click", function (e) {
+        let url = $("link[rel=alternate][type*=rss+xml]").attr("href");
+        let albumId, albumKey
+        if (url) {
+            let albumRegex = url.match(/\d*_[a-zA-Z\d]*/gm)[0].split("_")
 
-    let albumRegex = new RegExp(/\d*_[a-zA-Z\d]*/gm);
-    let domainRegex = new RegExp(/\/\/(.*)(?=\.smugmug\.com)/gm);
-
-    let albumId = url.match(albumRegex)[0].split("_")[0];
-    let albumKey = url.match(albumRegex)[0].split("_")[1];
-    let domain = window.location.href.match(domainRegex);
-    let links = [];
-
-    const settings = {
-      async: true,
-      crossDomain: true,
-      url: `https:${domain}.smugmug.com/services/api/json/1.4.0?galleryType=album&albumId=${albumId}&albumKey=${albumKey}&PageNumber=2&imageId=0&returnModelList=true&PageSize=5000&method=rpc.gallery.getalbum`,
-      method: "GET",
-    };
-
-    $.ajax(settings).done(function (response) {
-      console.log(response);
-
-      if (GM_info.downloadMode !== "browser") {
-        alert(`Please change the Tampermonkey download mode to browser and read the important comment at the top of the script!!!`)
-        return
-      }
-
-      if (
-        !confirm(
-          `You are about to download ${response.Pagination.TotalItems} images. Continue?`
-        )
-      )
-        return;
-
-      for (let image in response.Images) {
-        let picID = response.Images[image].GalleryUrl.split("/").slice(-1)[0];
-
-        let height = 0;
-        let largestSize = "";
-        let ext = "";
-
-        // gets largest file of those available
-        for (let size in response.Images[image].Sizes) {
-          if (response.Images[image].Sizes[size].height > height) {
-            height = response.Images[image].Sizes[size].height;
-            largestSize = size;
-            ext = response.Images[image].Sizes[size].ext;
-          }
+            albumId = albumRegex[0];
+            albumKey = albumRegex[1];
         }
+else {
+            let raw = $('script[crossorigin][type=module]:not(script[src])')["0"].outerHTML
+            albumId = raw.match(/albumId":(.+?),/)[1]
+            albumKey = raw.match(/albumKey":"(.+?)"/)[1]
+        }
+        let links = [];
 
-        let url = `https://photos.smugmug.com/photos/${picID}/0/${largestSize}/${picID}-${largestSize}.${ext}`;
-        links.push(url);
-      }
+        const settings = {
+            async: true,
+            crossDomain: true,
+            url: `https://${document.location.hostname}/services/api/json/1.4.0?galleryType=album&albumId=${albumId}&albumKey=${albumKey}&PageNumber=2&imageId=0&returnModelList=true&PageSize=5000&method=rpc.gallery.getalbum`,
+            method: "GET",
+        };
 
-      let done = 0;
+        $.ajax(settings).done(function (response) {
 
-      
-      $("body").prepend(
-        `<div class="downloadProgressContainer">
+            if (GM_info.downloadMode !== "browser") {
+                alert(`Please change the Tampermonkey download mode to browser and read the important comment at the top of the script!!!`)
+                return
+            }
+
+            if (
+                !confirm(
+                    `You are about to download ${response.Pagination.TotalItems} images. Continue?`
+                )
+            )
+                return;
+
+            for (let image in response.Images) {
+                let picID = response.Images[image].GalleryUrl.split("/").slice(-1)[0];
+
+                let height = 0;
+                let largestSize = "";
+                let ext = "";
+
+                // gets largest file of those available
+                for (let size in response.Images[image].Sizes) {
+                    if (response.Images[image].Sizes[size].usable && response.Images[image].Sizes[size].height > height) {
+                        height = response.Images[image].Sizes[size].height;
+                        largestSize = size;
+                        ext = response.Images[image].Sizes[size].ext;
+                    }
+                }
+                let url = `https://photos.smugmug.com/photos/${picID}/0/${largestSize}/${picID}-${largestSize}.${ext}`;
+                links.push(url);
+            }
+
+            let done = 0;
+
+
+            $("body").prepend(
+                `<div class="downloadProgressContainer">
           <div id="downloadProgress">
             Downloading: [/${response.Pagination.TotalItems}]
           </div>
@@ -172,61 +175,61 @@ GM_addStyle(/*css*/ `
             <div id="errors"></div>
             <button id="close">Close</button>
         </div>`
-      );
-
-      $('#close').on('click', function(e) {
-        links = []
-        done = 0
-        $('.downloadProgressContainer').remove()
-      })
-
-      // checks if the whole list has been run through and displays error / finished message
-      const finish = () => {
-        if (done == links.length) {
-          $("#downloadProgress").text("Finished!");
-          if ($('#errors').children().length) {
-            $("#downloadProgress").text(`Finished with ${$('#errors').children().length} errors.`);
-          }
-        }
-      }
-
-      links.forEach((url, i) => {
-        let name = response.Albums[0].Title + "/" + url.split("/").slice(-1)[0];
-        GM_download({
-          url,
-          name,
-          onload: (e) => {
-            done += 1;
-            $("#downloadProgress").text(
-              `Downloading: [${done}/${response.Pagination.TotalItems}]`
             );
-            $("progress#dp").attr("value", done)
-            finish()
-          },
-          onerror: (e) => {
-            done += 1
-            $("#errors").append(
-              `<p>Error: <code>${e.error}</code> for image [${i+1}/${response.Pagination.TotalItems}] 
+
+            $('#close').on('click', function(e) {
+                links = []
+                done = 0
+                $('.downloadProgressContainer').remove()
+            })
+
+            // checks if the whole list has been run through and displays error / finished message
+            const finish = () => {
+                if (done == links.length) {
+                    $("#downloadProgress").text("Finished!");
+                    if ($('#errors').children().length) {
+                        $("#downloadProgress").text(`Finished with ${$('#errors').children().length} errors.`);
+                    }
+                }
+            }
+
+            links.forEach((url, i) => {
+                let name = response.Albums[0].Title + "/" + url.split("/").slice(-1)[0];
+                GM_download({
+                    url,
+                    name,
+                    onload: (e) => {
+                        done += 1;
+                        $("#downloadProgress").text(
+                            `Downloading: [${done}/${response.Pagination.TotalItems}]`
+                        );
+                        $("progress#dp").attr("value", done)
+                        finish()
+                    },
+                    onerror: (e) => {
+                        done += 1
+                        $("#errors").append(
+                            `<p>Error: <code>${e.error}</code> for image [${i+1}/${response.Pagination.TotalItems}]
                 <a href="${url}" target="_blank">
                   <code>${name}</code>
                 </a>
               </p>`
-              );
-              finish()
-          },
-          ontimeout: (e) => {
-            done += 1
-            $('#errors').append(
-              `<p>The request for image [${i+1}/${response.Pagination.TotalItems}]
+                        );
+                        finish()
+                    },
+                    ontimeout: (e) => {
+                        done += 1
+                        $('#errors').append(
+                            `<p>The request for image [${i+1}/${response.Pagination.TotalItems}]
                 <a href="${url}" target="_blank">
                   <code>${name}</code>
                 </a>
               Timed out</p>`
-            )
-            finish()
-          }
+                        )
+                        finish()
+                    }
+                });
+            });
         });
-      });
     });
-  });
 });
