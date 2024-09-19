@@ -111,14 +111,15 @@ $(document).ready(() => {
         let url = $("link[rel=alternate][type*=rss+xml]").attr("href");
         let albumId, albumKey
         if (url) {
+
             let albumRegex = url.match(/\d*_[a-zA-Z\d]*/gm)[0].split("_")
 
             albumId = albumRegex[0];
             albumKey = albumRegex[1];
         }
-else {
+        else {
             let raw = $('script[crossorigin][type=module]:not(script[src])')["0"].outerHTML
-            albumId = raw.match(/albumId":(.+?),/)[1]
+            albumId = raw.match(/albumId":(\d*)/)[1]
             albumKey = raw.match(/albumKey":"(.+?)"/)[1]
         }
         let links = [];
